@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://A1ester.github.io/%E5%8F%8B%E9%93%BE/'>
 
-<link rel="stylesheet" href="/scss/style.min.915a5be3ed3d9e32f52e68aadaacbf8cd2d00a00952f920ed84eaa628eb32562.css"><meta property='og:title' content="友链">
+<link rel="stylesheet" href="/scss/style.min.c4b38529394d2e4cb0fd7e99b92007e6920852a99df58fb4c6948f74351d8549.css"><meta property='og:title' content="友链">
 <meta property='og:description' content="To use this feature, add links section to frontmatter. This page&rsquo;s frontmatter: 1 2 3 4 5 6 7 8 9 links: - title: GitHub description: GitHub is the world&#39;s largest software development platform. website: https://github.com image: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png - title: TypeScript description: TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. website: https://www.typescriptlang.org image: ts-logo-128.jpg image field accepts both local and external images.">
 <meta property='og:url' content='https://A1ester.github.io/%E5%8F%8B%E9%93%BE/'>
 <meta property='og:site_name' content='A1ester'>
@@ -64,7 +64,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu13739649187745961479.png" width="300"
+                        <img src="/img/avatar_hu17146313698374448001.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -276,6 +276,22 @@
     
 </div>
 
+
+<div class="article-details">
+    ...
+    <footer class="article-time">
+        ...
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    ...
+</div>
 </header>
 
     <section class="article-content">
@@ -383,11 +399,78 @@
         2026 A1ester@Luigi
     </section>
     
-    <section class="powerby">
-        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.26.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
-    </section>
+   
 </footer>
+
+<section class="count_info">
+  <div>
+      本站稳定运行：
+      <span id="ds" class="running-days number-highlight"></span>
+      天
+      <span id="hs" class="running-days number-highlight"></span>
+      小时
+      <span id="ms" class="running-days number-highlight"></span>
+      分钟
+  </div>
+  <div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      共发表文章数： 
+      <span class="number-highlight">1</span> 
+      篇 · 总计 
+      <span class="number-highlight">0.64</span> 
+      k 字
+  </div>
+  <div>
+      <span id="busuanzi_container_site_pv">
+          本站总访问量：
+          <span id="busuanzi_value_site_pv" class="number-highlight"></span>
+          次
+      </span>
+  </div>
+</section>
+
+
+<script>
+let s1 = '2026-02-08'; 
+s1 = new Date(s1.replace(/-/g, "/"));
+let s2 = new Date();
+let timeDifference = s2.getTime() - s1.getTime();
+
+let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+
+const ds = document.getElementById('ds');
+const hs = document.getElementById('hs');
+const ms = document.getElementById('ms');
+
+ds.innerHTML = days;
+hs.innerHTML = hours;
+ms.innerHTML = minutes;
+
+
+ds.classList.add('number-highlight');
+hs.classList.add('number-highlight');
+ms.classList.add('number-highlight');
+
+
+const busuanziValue = document.getElementById('busuanzi_value_site_pv');
+if (busuanziValue) {
+    busuanziValue.classList.add('number-highlight');
+}
+</script>
 
 
     
@@ -552,6 +635,7 @@
     });
   }
 </script>
+ <script defer src="https://cn.vercount.one/js"></script>
 <style>
     #TableOfContents > ul, ol {
         ul, ol {
@@ -598,5 +682,26 @@
     }
     initTocHide()
 </script>
+
+
+
+<div id="particles-js"></div>
+
+<script src=https://A1ester.github.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://A1ester.github.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+<style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
     </body>
 </html>
