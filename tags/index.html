@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://A1ester.github.io/tags/'>
 
-<link rel="stylesheet" href="/scss/style.min.4380ac2b01be1bfd0f78fd4187c8df57c642cb082552c0fd3e241936be2a8efe.css"><meta property='og:title' content="Tags">
+<link rel="stylesheet" href="/scss/style.min.e0ae9d9b576d8e5140760bb2ed80ac11677a86118f93eedbfe93dc26bb3de3b3.css"><meta property='og:title' content="Tags">
 <meta property='og:description' content="演示说明">
 <meta property='og:url' content='https://A1ester.github.io/tags/'>
 <meta property='og:site_name' content='A1ester'>
@@ -21,6 +21,167 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
+<div class="loading">
+    <div class="sharingon">
+        <div class="ring">
+            <div class="to"></div>
+            <div class="to"></div>
+            <div class="to"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .loading {
+        position: fixed;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        zoom: 3.0;
+        background-color: #040404;
+    }
+	
+    .animated-stop {
+        animation-play-state: paused !important;
+    }
+	
+    .scaleAndFadeout {
+        animation: scaleAndFadeOut 1.5s forwards;
+    }
+	
+     
+    @keyframes scaleAndFadeOut {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+
+     
+    .sharingon {
+        position: relative;
+        width: 6em;
+        height: 6em;
+        background-color: red;
+        border: 6px solid black;
+        animation: rot 1s ease-in-out infinite;
+    }
+
+    .ring {
+        position: absolute;
+        content: "";
+        left: 50%;
+        top: 50%;
+        width: 3.5em;
+        height: 3.5em;
+        border: 4px solid rgb(110, 13 ,13 ,0.5);
+        transform: translate(-50%,-50%);
+    }
+
+    .sharingon, .ring, .to,.circle {
+        border-radius: 50%;
+    }
+
+    .to,.circle {
+        position: absolute;
+        content: "";
+        width: 0.9em;
+        height: 0.9em;
+        background-color: black;
+    }
+
+    .to:nth-child(1) {
+        top: -0.5em;
+        left: 50%;
+        transform: translate(-40%);
+    }
+
+    .to::before {
+        content: "";
+        position: absolute;
+        top: -0.5em;
+        right: -0.2em;
+        width: 1.1em;
+        height: 0.9em;
+        box-sizing: border-box;
+        border-left: 16px solid black;
+        border-radius: 100% 0 0;
+    }
+
+    .to:nth-child(2) {
+        bottom: 0.5em;
+        left: -0.35em;
+        transform: rotate(-120deg);
+    }
+
+    .to:nth-child(3) {
+        bottom: 0.5em;
+        right: -0.35em;
+        transform: rotate(120deg);
+    }
+
+    .circle {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        box-shadow: 0 0 20px 1px;
+        width: 1em;
+        height: 1em;
+    }
+
+    @keyframes rot {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<script>	
+    function initLoading() {
+        const isFirstVisit = !sessionStorage.getItem('visited');
+        if (isFirstVisit) {
+            let loading = document.querySelector(".loading");
+            loading.style.display = "flex";
+            document.addEventListener('DOMContentLoaded', function() {
+                
+                loadFinish();
+                
+                setTimeout(() => {
+                    loading.style.display = "none";
+                }, 1000)
+                sessionStorage.setItem('visited', 'true');
+            });
+        }
+    }
+	
+    function loadFinish() {
+        
+        let sharingon= document.querySelector(".sharingon");
+        sharingon.classList.add("animated-stop")
+        
+        let loading = document.querySelector(".loading");
+        loading.classList.add("scaleAndFadeout")
+    }
+	
+    initLoading();
+</script>
+
+
+
     </head>
     <body class="">
     <script>
@@ -334,6 +495,9 @@
 
             
         
+        <div style="height: 30%;width: 30%">
+            <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=xxxxx"></script>
+        </div>
     </aside>
 
 
@@ -653,15 +817,15 @@ if (busuanziValue) {
   border-radius: 4px;
   border: 1px solid #333;
   background: #3ff8ab;
-  color: #1ef577;
+  color: #08f9ad;
   padding: 4px 8px;
   font-size: 12px;
   cursor: pointer;
   transition: background .2s;
 }
 .copyCodeButton:hover {
-  background: var(--hover-text-color);
-  color: #18f3b5;
+  background: #03b281 !important;;
+  color: #f2f5f4;
 }
 
  
@@ -678,7 +842,7 @@ if (busuanziValue) {
   border-radius: 15px;
   background: var(--hover-text-color);
   color: #00ae5d;
-  box-shadow: 4px 4px 14px rgba(0, 0, 0, .35);
+  box-shadow: 4px 4px 14px rgba(2, 250, 204, 0.35);
   z-index: 9999;
   font-size: 18px;
   font-weight: bold;
@@ -719,6 +883,66 @@ if (busuanziValue) {
   transform: translateX(0);
 }
 </style>
+
+<div id="jsi-flying-fish-container"></div>
+
+
+<style>
+#jsi-flying-fish-container {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    z-index: -1;
+    opacity: 0;           
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity .3s;
+}
+ 
+.show-fish #jsi-flying-fish-container {
+    opacity: .5;
+}
+</style>
+
+
+<script>
+window.initFlyingFish = function () {
+    const container = document.getElementById('jsi-flying-fish-container');
+    if (!container) return;
+
+     
+    const oldCanvas = container.querySelector('canvas');
+    if (oldCanvas) oldCanvas.remove();
+
+     
+    const script = document.createElement('script');
+    script.src = 'https://cdn.meimolihan.eu.org/hugo/fish/fish.js';
+    script.onload = function () {
+        if (typeof RENDERER !== 'undefined') RENDERER.init();
+    };
+    document.head.appendChild(script);
+
+     
+    function checkBottom() {
+        const doc = document.documentElement;
+        const isBottom = (window.innerHeight + Math.ceil(window.pageYOffset))
+                         >= (doc.scrollHeight - 10);
+        document.body.classList.toggle('show-fish', isBottom);
+    }
+
+     
+    window.addEventListener('scroll', checkBottom);
+    checkBottom(); 
+};
+
+ 
+document.addEventListener('DOMContentLoaded', initFlyingFish);
+
+ 
+document.addEventListener('pjax:complete', initFlyingFish);
+</script>
  <script defer src="https://cn.vercount.one/js"></script>
 <style>
     #TableOfContents > ul, ol {
