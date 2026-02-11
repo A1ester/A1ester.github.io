@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>同态 on A1ester</title>
+        <link>https://A1ester.github.io/categories/%E5%90%8C%E6%80%81/</link>
+        <description>Recent content in 同态 on A1ester</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>A1ester@Luigi</copyright>
+        <lastBuildDate>Wed, 11 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://A1ester.github.io/categories/%E5%90%8C%E6%80%81/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>同态加密的分类和研究</title>
+        <link>https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E7%9A%84%E5%88%86%E7%B1%BB%E5%92%8C%E7%A0%94%E7%A9%B6/</link>
+        <pubDate>Wed, 11 Feb 2026 00:00:00 +0000</pubDate>
+        
+        <guid>https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E7%9A%84%E5%88%86%E7%B1%BB%E5%92%8C%E7%A0%94%E7%A9%B6/</guid>
+        <description>&lt;img src="https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E7%9A%84%E5%88%86%E7%B1%BB%E5%92%8C%E7%A0%94%E7%A9%B6/1.png" alt="Featured image of post 同态加密的分类和研究" /&gt;&lt;p&gt;References:&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_44604541/article/details/118145637&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;一文了解同态加密（Homomorphic Encryption, HE）-CSDN博客&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;概述&#34;&gt;📖概述
+&lt;/h1&gt;&lt;p&gt;基本概念&lt;/p&gt;
+&lt;p&gt;同态加密（Homomorphic Encryption, HE）是指满足密文同态运算性质的加密算法，即数据经过同态加密之后，对密文进行特定的计算，得到的密文计算结果在进行对应的同态解密后的明文等同于对明文数据直接进行相同的计算，实现数据的“可算不可见”&lt;/p&gt;
+&lt;p&gt;如果满足 f(A)+f(B)=f(A+B)f(A)+f(B)=f(A+B) ， 我们将这种加密函数叫做加法同态
+如果满足 f(A)×f(B)=f(A×B)f(A)×f(B)=f(A×B) ，我们将这种加密函数叫做乘法同态。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;算法&lt;/th&gt;
+&lt;th&gt;时间&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;实际应用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;半同态加密&lt;/td&gt;
+&lt;td&gt;乘法同态RSA 算法&lt;/td&gt;
+&lt;td&gt;1977&lt;/td&gt;
+&lt;td&gt;非随机化加密，具有乘法同态性的原始算法面临选择明文攻击&lt;/td&gt;
+&lt;td&gt;在非同态场景中应用广泛&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;乘法同态ElGamal 算法&lt;/td&gt;
+&lt;td&gt;1985&lt;/td&gt;
+&lt;td&gt;随机化加密&lt;/td&gt;
+&lt;td&gt;DSS 数字签名标准基于 ElGamal 数字签名算法的变体&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;加法同态Paillier 算法&lt;/td&gt;
+&lt;td&gt;1999&lt;/td&gt;
+&lt;td&gt;应用最为成熟&lt;/td&gt;
+&lt;td&gt;联邦学习&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;有限次数全同态Boneh-Goh-Nissim 方案&lt;/td&gt;
+&lt;td&gt;2005&lt;/td&gt;
+&lt;td&gt;仅支持 1 次乘法同态运算&lt;/td&gt;
+&lt;td&gt;/&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;全同态加密&lt;/td&gt;
+&lt;td&gt;Gentry 方案&lt;/td&gt;
+&lt;td&gt;2009&lt;/td&gt;
+&lt;td&gt;第一代全同态加密，性能较差&lt;/td&gt;
+&lt;td&gt;/&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;BGV 方案&lt;/td&gt;
+&lt;td&gt;2012&lt;/td&gt;
+&lt;td&gt;第二代全同态加密，性能相对较好&lt;/td&gt;
+&lt;td&gt;IBM HElib 开源库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;BFV 方案&lt;/td&gt;
+&lt;td&gt;2012&lt;/td&gt;
+&lt;td&gt;第二代全同态加密，与 BGV 类似&lt;/td&gt;
+&lt;td&gt;微软 SEAL 开源库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;GSW 方案&lt;/td&gt;
+&lt;td&gt;2013&lt;/td&gt;
+&lt;td&gt;第三代全同态加密，基于近似特征向量&lt;/td&gt;
+&lt;td&gt;TFHE 开源库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;CKKS 方案&lt;/td&gt;
+&lt;td&gt;2017&lt;/td&gt;
+&lt;td&gt;可实现浮点数近似计算，适合机器学习建模场景&lt;/td&gt;
+&lt;td&gt;HElib 和 SEAL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</description>
+        </item>
+        
+    </channel>
+</rss>
