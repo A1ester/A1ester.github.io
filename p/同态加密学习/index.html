@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=" about Homomorphic Encryption">
+<title>🔍同态加密学习</title>
+
+<link rel='canonical' href='https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/'>
+
+<link rel="stylesheet" href="/scss/style.min.5c6952a17720c43e109641d7b396432543e55e1b35d4216a6f9b3a1f479e120d.css"><meta property='og:title' content="🔍同态加密学习">
+<meta property='og:description' content=" about Homomorphic Encryption">
+<meta property='og:url' content='https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/'>
+<meta property='og:site_name' content='A1ester'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='markdown' /><meta property='article:tag' content='密码学' /><meta property='article:tag' content='同态' /><meta property='article:published_time' content='2026-02-15T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-02-15T00:00:00&#43;00:00'/><meta property='og:image' content='https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/1.png' />
+<meta name="twitter:title" content="🔍同态加密学习">
+<meta name="twitter:description" content=" about Homomorphic Encryption"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/1.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+  
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<div class="loading">
+    <div class="sharingon">
+        <div class="ring">
+            <div class="to"></div>
+            <div class="to"></div>
+            <div class="to"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .loading {
+        position: fixed;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        zoom: 3.0;
+        background-color: #040404;
+    }
+	
+    .animated-stop {
+        animation-play-state: paused !important;
+    }
+	
+    .scaleAndFadeout {
+        animation: scaleAndFadeOut 1.5s forwards;
+    }
+	
+     
+    @keyframes scaleAndFadeOut {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+
+     
+    .sharingon {
+        position: relative;
+        width: 6em;
+        height: 6em;
+        background-color: red;
+        border: 6px solid black;
+        animation: rot 1s ease-in-out infinite;
+    }
+
+    .ring {
+        position: absolute;
+        content: "";
+        left: 50%;
+        top: 50%;
+        width: 3.5em;
+        height: 3.5em;
+        border: 4px solid rgb(110, 13 ,13 ,0.5);
+        transform: translate(-50%,-50%);
+    }
+
+    .sharingon, .ring, .to,.circle {
+        border-radius: 50%;
+    }
+
+    .to,.circle {
+        position: absolute;
+        content: "";
+        width: 0.9em;
+        height: 0.9em;
+        background-color: black;
+    }
+
+    .to:nth-child(1) {
+        top: -0.5em;
+        left: 50%;
+        transform: translate(-40%);
+    }
+
+    .to::before {
+        content: "";
+        position: absolute;
+        top: -0.5em;
+        right: -0.2em;
+        width: 1.1em;
+        height: 0.9em;
+        box-sizing: border-box;
+        border-left: 16px solid black;
+        border-radius: 100% 0 0;
+    }
+
+    .to:nth-child(2) {
+        bottom: 0.5em;
+        left: -0.35em;
+        transform: rotate(-120deg);
+    }
+
+    .to:nth-child(3) {
+        bottom: 0.5em;
+        right: -0.35em;
+        transform: rotate(120deg);
+    }
+
+    .circle {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        box-shadow: 0 0 20px 1px;
+        width: 1em;
+        height: 1em;
+    }
+
+    @keyframes rot {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<script>	
+    function initLoading() {
+        const isFirstVisit = !sessionStorage.getItem('visited');
+        if (isFirstVisit) {
+            let loading = document.querySelector(".loading");
+            loading.style.display = "flex";
+            document.addEventListener('DOMContentLoaded', function() {
+                
+                loadFinish();
+                
+                setTimeout(() => {
+                    loading.style.display = "none";
+                }, 1000)
+                sessionStorage.setItem('visited', 'true');
+            });
+        }
+    }
+	
+    function loadFinish() {
+        
+        let sharingon= document.querySelector(".sharingon");
+        sharingon.classList.add("animated-stop")
+        
+        let loading = document.querySelector(".loading");
+        loading.classList.add("scaleAndFadeout")
+    }
+	
+    initLoading();
+</script>
+
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu17146313698374448001.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🥱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">A1ester</a></h1>
+            <h2 class="site-description">(๑&gt;ᴗ&lt;๑) hello ~</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#一学同态加密应用">一、学同态加密？应用？</a></li>
+        <li><a href="#二基础知识">二、基础知识</a>
+          <ol>
+            <li><a href="#21-什么是同态加密">2.1 什么是同态加密？</a></li>
+            <li><a href="#22-ckks-方案简介">2.2 CKKS 方案简介</a>
+              <ol>
+                <li><a href="#重要概念多项式环-mathcalr">重要概念：多项式环 $\mathcal{R}$</a></li>
+              </ol>
+            </li>
+            <li><a href="#23-编码与旋转操作">2.3 编码与旋转操作</a></li>
+            <li><a href="#24-密文的level与计算深度">2.4 密文的Level与计算深度</a></li>
+            <li><a href="#25-bootstrapping自举">2.5 Bootstrapping（自举）</a></li>
+          </ol>
+        </li>
+        <li><a href="#三已有方案对比">三、已有方案对比</a>
+          <ol>
+            <li><a href="#31-高吞吐量-vs-低延迟">3.1 高吞吐量 vs 低延迟</a></li>
+            <li><a href="#32-卷积的同态计算以往的方法">3.2 卷积的同态计算：以往的方法</a></li>
+          </ol>
+        </li>
+        <li><a href="#四论文核心方法convfhe">四、论文核心方法：ConvFHE</a>
+          <ol>
+            <li><a href="#41-核心思路">4.1 核心思路</a></li>
+            <li><a href="#42-为什么这样能行">4.2 为什么这样能行？</a></li>
+            <li><a href="#43-批量卷积的推广">4.3 批量卷积的推广</a></li>
+            <li><a href="#44-与卷积层含激活函数结合">4.4 与卷积层（含激活函数）结合</a></li>
+            <li><a href="#45-relu-的近似">4.5 ReLU 的近似</a></li>
+          </ol>
+        </li>
+        <li><a href="#五方法对比总结">五、方法对比总结</a></li>
+        <li><a href="#六实验结果">六、实验结果</a>
+          <ol>
+            <li><a href="#61-单卷积加速效果">6.1 单卷积加速效果</a></li>
+            <li><a href="#62-完整cnn推理">6.2 完整CNN推理</a></li>
+            <li><a href="#63-探索更好的cnn架构">6.3 探索更好的CNN架构</a></li>
+          </ol>
+        </li>
+        <li><a href="#七疑问与思考">七、疑问与思考</a>
+          <ol>
+            <li><a href="#后续我要做的事">后续我要做的事</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+        <div style="height: 30%;width: 30%">
+            <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=xxxxx"></script>
+        </div>
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/">
+                <img src="/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/1_hu12449266375988810997.png"
+                        srcset="/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/1_hu12449266375988810997.png 800w, /p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/1_hu14077077242630611298.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 🔍同态加密学习" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%90%8C%E6%80%81/" >
+                同态
+            </a>
+        
+            <a href="/categories/%E8%AF%BE%E9%A2%98/" >
+                课题
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/">🔍同态加密学习</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+             about Homomorphic Encryption
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 15, 2026</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+
+<div class="article-details">
+    ...
+    <footer class="article-time">
+        ...
+        
+        <div id="viewCount">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-time--reading">
+                
+                <span id="vercount_value_page_pv">loading... </span>次
+            </time>
+        </div>
+    </footer>
+    ...
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>References:<a class="link" href="https://blog.csdn.net/weixin_44604541/article/details/118145637"  target="_blank" rel="noopener"
+    >一文了解同态加密（Homomorphic Encryption, HE）-CSDN博客</a></p>
+<p>Optimized Privacy-Preserving CNN Inference With Fully Homomorphic Encryption，Dongwoo Kim &amp; Cyril Guyot（IEEE TIFS, 2023）</p>
+<h2 id="一学同态加密应用">一、学同态加密？应用？
+</h2><p>一开始基本看不懂。但仔细想想，它解决的问题其实很好理解：</p>
+<blockquote>
+<p><strong>场景：</strong> 我有一张医疗图像，想让某个AI服务商的神经网络帮我做诊断。但我不想把原始数据上传给对方，因为这涉及隐私。怎么办？</p>
+</blockquote>
+<p>同态加密（Fully Homomorphic Encryption，FHE）就是为了解决这个问题而生的——<strong>让服务商在加密数据上直接运算，我收到结果再解密，整个过程服务商看不到任何明文</strong>。</p>
+<p>这就是所谓的 <strong>隐私保护机器学习（Privacy-Preserving Machine Learning, PPML）</strong> 中的 <strong>安全推理（Secure Inference）</strong>。</p>
+<hr>
+<h2 id="二基础知识">二、基础知识
+</h2><h3 id="21-什么是同态加密">2.1 什么是同态加密？
+</h3><p>普通加密：加密之后必须先解密才能操作数据。</p>
+<p>同态加密：可以<strong>直接对密文进行运算</strong>，结果解密后等同于对明文运算的结果。</p>
+<p>用数学语言表达（以论文中使用的 CKKS 方案为例）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Dec(Enc(m₁) ⊞ Enc(m₂)) ≈ m₁ + m₂   （密文加法）
+</span></span><span class="line"><span class="cl">Dec(Enc(m₁) ⊡ Enc(m₂)) ≈ m₁ × m₂   （密文乘法）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>[!NOTE]</p>
+<p>注意这里有个 <code>≈</code>（约等于）而不是 <code>=</code>，这是 CKKS 方案的特点——它做的是<strong>近似计算</strong>，有一点点误差，但对于机器学习推理来说完全够用。</p>
+</blockquote>
+<h3 id="22-ckks-方案简介">2.2 CKKS 方案简介
+</h3><p>论文使用的是 <strong>CKKS 方案</strong>（Cheon-Kim-Kim-Song，2017年提出）。我理解它的核心特点是：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>特点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>明文空间</td>
+<td>多项式环 $\mathcal{R} := \mathbb{Z}[X]/(X^N+1)$</td>
+</tr>
+<tr>
+<td>支持操作</td>
+<td>近似实数/复数的加法和乘法</td>
+</tr>
+<tr>
+<td>编码方式</td>
+<td>一个密文可以同时打包 $N/2$ 个复数（&ldquo;槽&rdquo;，slot）</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>机器学习推理、统计计算等允许近似误差的场景</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="重要概念多项式环-mathcalr">重要概念：多项式环 $\mathcal{R}$
+</h4><p>这是让我花了最长时间理解的部分。简单来说：</p>
+<ul>
+<li>$\mathcal{R}$ 中的元素是多项式，例如 $3 + 2X + 5X^2 + \cdots$</li>
+<li>这些多项式的次数不超过 $N-1$（$N$ 是2的幂次，比如 $2^{16}$）</li>
+<li>乘法时遵循规则 $X^N = -1$（模 $X^N+1$）</li>
+</ul>
+<h3 id="23-编码与旋转操作">2.3 编码与旋转操作
+</h3><p><strong>普通 CKKS 编码（Slot 编码）：</strong></p>
+<ul>
+<li>将 $N/2$ 个复数打包进一个密文</li>
+<li>支持向量的逐元素加法和乘法</li>
+<li><code>Rot(ct, j)</code> 操作：将密文中的向量循环左移 $j$ 步</li>
+</ul>
+<p><strong>论文新提出的系数编码（Coefficient Encoding）：</strong></p>
+<ul>
+<li>将 $N$ 个实数直接存到多项式的各项系数中</li>
+<li>优点：可以存更多数据（$N$ 个 vs 普通的 $N/2$ 个）</li>
+<li>(论文最核心的创新之一)</li>
+</ul>
+<h3 id="24-密文的level与计算深度">2.4 密文的Level与计算深度
+</h3><p>这是 FHE 中一个很重要但初学时容易忽略的概念：</p>
+<ul>
+<li>每个密文有一个&quot;层数&quot; $l \in {0, 1, \ldots, L}$</li>
+<li>每做一次乘法，层数消耗一层</li>
+<li>层数为 0 时，就无法继续做乘法了</li>
+</ul>
+<p>所以对于深层神经网络，我们需要……</p>
+<h3 id="25-bootstrapping自举">2.5 Bootstrapping（自举）
+</h3><p><strong>Bootstrapping</strong> 是 FHE 中最&quot;神奇&quot;也最耗时的操作：</p>
+<ul>
+<li><strong>作用：</strong> 将一个层数耗尽（level=0）的密文&quot;刷新&quot;为高层数（level=L）的密文，从而可以继续运算</li>
+<li><strong>代价：</strong> 计算开销非常大</li>
+<li><strong>意义：</strong> 有了 Bootstrapping，FHE 才能进行任意深度的计算（即&quot;全同态&quot;）</li>
+</ul>
+<p>没有 Bootstrapping，FHE 只是&quot;有限同态加密&quot;，只能处理深度有限的网络。这也是为什么之前大多数工作只能做浅层网络，而这篇论文能做20层CNN的原因。</p>
+<hr>
+<h2 id="三已有方案对比">三、已有方案对比
+</h2><p>论文的第二节梳理了现有方法，我整理如下：</p>
+<h3 id="31-高吞吐量-vs-低延迟">3.1 高吞吐量 vs 低延迟
+</h3><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>代表工作</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高吞吐量</td>
+<td>CryptoNets（2016）</td>
+<td>把很多输入打包到一个密文，均摊计算成本；但单次推理延迟极高</td>
+</tr>
+<tr>
+<td>低延迟</td>
+<td>Gazelle、LoLa、Falcon 等</td>
+<td>专注于单次推理的速度</td>
+</tr>
+</tbody>
+</table></div>
+<p>这篇论文属于<strong>低延迟</strong>方向。</p>
+<h3 id="32-卷积的同态计算以往的方法">3.2 卷积的同态计算：以往的方法
+</h3><p><strong>向量编码法（Vector Encoding，Gazelle等）：</strong></p>
+<ul>
+<li>对于一个 $k \times k$ 的卷积核，需要生成 $k^2$ 个旋转后的密文</li>
+<li>再分别乘以对应的核权重，求和</li>
+<li>代价：$k^2$ 次乘法，$k^2 - 1$ 次旋转</li>
+<li>问题：核越大，计算越贵</li>
+</ul>
+<p><strong>频域编码法（Spectral Encoding，Falcon等）：</strong></p>
+<ul>
+<li>利用卷积定理：时域卷积 = 频域相乘</li>
+<li>用 DFT（离散傅里叶变换）把输入和核变换到频域，做一次乘法，再做逆变换</li>
+<li>问题：DFT 和 IDFT 本身也很贵，而且每次交互都需要解密</li>
+</ul>
+<hr>
+<h2 id="四论文核心方法convfhe">四、论文核心方法：ConvFHE
+</h2><h3 id="41-核心思路">4.1 核心思路
+</h3><p>论文发现：<strong>卷积运算可以表示为两个多项式在环 $\mathcal{R}$ 中的乘法</strong></p>
+<p>具体来说，对于输入 $I \in \mathbb{Z}^{w \times w}$ 和卷积核 $K \in \mathbb{Z}^{k \times k}$，可以把它们分别编码为两个多项式 $I(X)$ 和 $K(X)$，使得：</p>
+<p>$$I(X) \cdot K(X) \text{ 的第 } (iw+j) \text{ 项系数} = \text{Conv}(I, K)_{i,j}$$</p>
+<p>也就是说，<strong>一次多项式乘法（即一次同态乘法）就能完成整个卷积，无论核有多大</strong></p>
+<p>这就是为什么论文标题说&quot;constant regardless of the kernel size&quot;（与核大小无关的常数时间）。</p>
+<h3 id="42-为什么这样能行">4.2 为什么这样能行？
+</h3><p>我的理解是：普通卷积就是一种&quot;多项式卷积&quot;的特殊形式。把输入和核的元素安排在多项式的合适位置上，乘法的结果恰好就是卷积输出。这个想法很优雅。</p>
+<h3 id="43-批量卷积的推广">4.3 批量卷积的推广
+</h3><p>CNN 里不止一个卷积，还有 $B$ 个输入通道和 $B&rsquo;$ 个输出通道（批量卷积）。论文用了&quot;稀疏打包&quot;的技巧把所有 $B$ 组输入编码进一个多项式，让它们的卷积结果自动落在不同的系数位置上，互不干扰。</p>
+<p>然后用一个叫 <strong>PackLWEs</strong> 的算法（对 Chen et al. 2021 工作的推广），把 $B$ 个输出密文高效地打包成 1 个密文。</p>
+<h3 id="44-与卷积层含激活函数结合">4.4 与卷积层（含激活函数）结合
+</h3><p>卷积之后通常跟一个激活函数（如 ReLU）。问题来了：</p>
+<ul>
+<li>系数编码适合做卷积（多项式乘法）</li>
+<li>激活函数需要逐元素操作，适合槽编码（slot domain）</li>
+</ul>
+<p>论文的解决方案：<strong>把 Bootstrapping 的中间步骤拆开来用</strong></p>
+<p>Bootstrapping 本来就有把系数域转换为槽域（CtoS）和反向转换（StoC）的步骤。论文把 ReLU 激活的评估&quot;插入&quot;到这两步之间：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">系数域（卷积结果）
+</span></span><span class="line"><span class="cl">    ↓ CtoS（密文操作，不需要解密）
+</span></span><span class="line"><span class="cl">槽域
+</span></span><span class="line"><span class="cl">    ↓ ReLU近似多项式（在槽域做逐元素操作）
+</span></span><span class="line"><span class="cl">    ↓ StoC
+</span></span><span class="line"><span class="cl">系数域（下一层的输入）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样卷积和激活函数都能在全加密状态下完成，而且每层只需要一次 Bootstrapping。</p>
+<h3 id="45-relu-的近似">4.5 ReLU 的近似
+</h3><p>FHE 只能做多项式运算，而 ReLU$(x) = \max(0, x)$ 不是多项式。怎么办？</p>
+<p>论文用了<strong>复合多项式近似</strong>：找三个低次多项式 $f_1, f_2, f_3$，使得 $f_3(f_2(f_1(x))) \approx \text{sign}(x)$，从而近似 ReLU。精度达到 10-bit（对于深度CNN来说足够了）。</p>
+<hr>
+<h2 id="五方法对比总结">五、方法对比总结
+</h2><p>三种方法的计算代价对比（$B$：批大小，$k$：核宽，$w$：输入宽）：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>乘法次数</th>
+<th>旋转次数</th>
+<th>密文容量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>向量编码（Gazelle）</td>
+<td>$k^2 B$</td>
+<td>$k^2 + B - 2$</td>
+<td>$N/2$</td>
+</tr>
+<tr>
+<td>频域编码（Falcon）</td>
+<td>$B + 2$</td>
+<td>$B - 1 + 4\log_2 w$</td>
+<td>$N/2w^2$</td>
+</tr>
+<tr>
+<td><strong>本文（ConvFHE）</strong></td>
+<td><strong>$3B - 2$</strong></td>
+<td><strong>$B - 1$</strong></td>
+<td><strong>$N$</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>本文方法的优势：</p>
+<ol>
+<li>乘法次数与核大小 $k$ <strong>完全无关</strong></li>
+<li>旋转次数最少</li>
+<li>每个密文可以打包更多消息（$N$ 个，是向量编码的两倍）</li>
+</ol>
+<hr>
+<h2 id="六实验结果">六、实验结果
+</h2><p>论文在 AMD EPYC 7402P（单线程）上测试，FHE参数 $N = 2^{16}$，128-bit安全。</p>
+<h3 id="61-单卷积加速效果">6.1 单卷积加速效果
+</h3><p>与向量编码基线相比，ConvFHE 的加速比：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>核宽 $k$</th>
+<th>加速倍数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$k = 3$</td>
+<td><strong>~12×</strong></td>
+</tr>
+<tr>
+<td>$k = 5$</td>
+<td><strong>~25×</strong></td>
+</tr>
+<tr>
+<td>$k = 7$</td>
+<td><strong>~46×</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>而且本文方法的时间对所有核宽都<strong>保持不变</strong></p>
+<h3 id="62-完整cnn推理">6.2 完整CNN推理
+</h3><p>在 CIFAR10/100 数据集上，对 20 层 CNN（plain-20）的完整推理：</p>
+<ul>
+<li>相比基线方法，总时间减少 <strong>18.9%</strong></li>
+<li>对于 ImageNet 的 Plain-18 CNN 最后8层，减少 <strong>48.1%</strong></li>
+</ul>
+<h3 id="63-探索更好的cnn架构">6.3 探索更好的CNN架构
+</h3><p>既然本文方法对大核卷积没有额外代价，那能否用<strong>更大的核、更宽的层、更浅的网络</strong>来同时提升精度和效率？</p>
+<p>答案是肯定的，在 CIFAR10 上，最优结果：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>运行时间</th>
+<th>精度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基线 k3-d20-w1</td>
+<td>454s</td>
+<td>91.3%</td>
+</tr>
+<tr>
+<td>本文 k5-d8-w3</td>
+<td><strong>255s</strong></td>
+<td><strong>92.0%</strong></td>
+</tr>
+<tr>
+<td>本文 k5-d14-w3</td>
+<td>398s</td>
+<td><strong>94.0%</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>花更少的时间，得到更高的精度——这就是方法创新带来的正向循环。</p>
+<hr>
+<h2 id="七疑问与思考">七、疑问与思考
+</h2><p>几个地方还没完全弄懂，记录在这里：</p>
+<ol>
+<li>
+<p><strong>PackLWEs 算法</strong>：论文用它把 $B$ 个密文合并成1个，说是不消耗&quot;乘法层数&quot;（multiplicative depth），为什么？我还需要看附录A和 Chen et al. 2021 的原文。</p>
+</li>
+<li>
+<p><strong>系数域到槽域的转换（CtoS/StoC）</strong>：这是 Bootstrapping 内部的操作，对我来说仍然是黑盒。需要补充 CKKS Bootstrapping 的原理。</p>
+</li>
+<li>
+<p><strong>为什么 $X^N = -1$</strong>：这是多项式环 $\mathbb{Z}[X]/(X^N+1)$ 的定义，之前没学到这里，回去还要补一下课。</p>
+</li>
+<li>
+<p><strong>安全性</strong>：论文说基于&quot;格密码学&quot;（Lattice-based cryptography）的困难性假设，具体是什么问题？（RLWE？）后面再去了解一下</p>
+</li>
+</ol>
+<hr>
+<h3 id="后续我要做的事">后续我要做的事
+</h3><ul>
+<li><input disabled="" type="checkbox"> 补充环论基础（多项式环、理想等概念）</li>
+<li><input disabled="" type="checkbox"> 仔细阅读 CKKS 原论文（Cheon et al., 2017）</li>
+<li><input disabled="" type="checkbox"> 理解 CKKS Bootstrapping 的完整流程</li>
+<li><input disabled="" type="checkbox"> 跑一下论文开源代码（Lattigo 库）感受实际效果</li>
+<li><input disabled="" type="checkbox"> 了解 BGV、B/FV 等其他 FHE 方案与 CKKS 的区别</li>
+</ul>
+<hr>
+<blockquote>
+<p>💡 <strong>一句话总结这篇论文：</strong></p>
+<p>把 CNN 的卷积运算重新表达为多项式乘法，使得同态加密下的卷积代价与核大小无关，从而在不损失精度的前提下大幅加速了隐私保护神经网络推理。</p>
+</blockquote>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/markdown/">Markdown</a>
+        
+            <a href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/">密码学</a>
+        
+            <a href="/tags/%E5%90%8C%E6%80%81/">同态</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2026 A1ester@Luigi
+    </section>
+    
+   
+</footer>
+
+<section class="count_info">
+  <div>
+      本站稳定运行：
+      <span id="ds" class="running-days number-highlight"></span>
+      天
+      <span id="hs" class="running-days number-highlight"></span>
+      小时
+      <span id="ms" class="running-days number-highlight"></span>
+      分钟
+  </div>
+  <div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      共发表文章数： 
+      <span class="number-highlight">3</span> 
+      篇 · 总计 
+      <span class="number-highlight">45.45</span> 
+      k 字
+  </div>
+  <div>
+      <span id="busuanzi_container_site_pv">
+          本站总访问量：
+          <span id="busuanzi_value_site_pv" class="number-highlight"></span>
+          次
+      </span>
+  </div>
+</section>
+
+
+<script>
+let s1 = '2026-02-08'; 
+s1 = new Date(s1.replace(/-/g, "/"));
+let s2 = new Date();
+let timeDifference = s2.getTime() - s1.getTime();
+
+let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+
+const ds = document.getElementById('ds');
+const hs = document.getElementById('hs');
+const ms = document.getElementById('ms');
+
+ds.innerHTML = days;
+hs.innerHTML = hours;
+ms.innerHTML = minutes;
+
+
+ds.classList.add('number-highlight');
+hs.classList.add('number-highlight');
+ms.classList.add('number-highlight');
+
+
+const busuanziValue = document.getElementById('busuanzi_value_site_pv');
+if (busuanziValue) {
+    busuanziValue.classList.add('number-highlight');
+}
+</script>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script>
+  const cdnPath = "https://cdn.meimolihan.eu.org/hugo/live2d";
+  
+
+  const config = {
+    
+    path: {
+      homePath: "/",
+      modelPath: cdnPath + "/live2d-moc3/",
+      cssPath: cdnPath + "/waifu.css",
+      tipsJsonPath: cdnPath + "/waifu-tips.json",
+      tipsJsPath: cdnPath + "/waifu-tips.js",
+      live2dCorePath: cdnPath + "/live2dcubismcore.js",
+      live2dSdkPath: cdnPath + "/live2d-sdk.js"
+    },
+    
+    tools: ["hitokoto", "asteroids", "express", "switch-model", "switch-texture", "photo", "info", "quit"],
+    
+    drag: {
+      enable: true,
+      direction: ["x", "y"]
+    },
+    
+    switchType: "order"
+  }
+
+  
+  if (screen.width >= 768) {
+    Promise.all([
+      loadExternalResource(config.path.cssPath, "css"),
+      loadExternalResource(config.path.live2dCorePath, "js"),
+      loadExternalResource(config.path.live2dSdkPath, "js"),
+      loadExternalResource(config.path.tipsJsPath, "js")
+    ]).then(() => {
+      initWidget({
+        waifuPath: config.path.tipsJsonPath,
+        cdnPath: config.path.modelPath,
+        tools: config.tools,
+        dragEnable: config.drag.enable,
+        dragDirection: config.drag.direction,
+        switchType: config.switchType
+      });
+    });
+  }
+
+  
+  function loadExternalResource(url, type) {
+    return new Promise((resolve, reject) => {
+      let tag;
+      if (type === "css") {
+        tag = document.createElement("link");
+        tag.rel = "stylesheet";
+        tag.href = url;
+      }
+      else if (type === "js") {
+        tag = document.createElement("script");
+        tag.src = url;
+      }
+      if (tag) {
+        tag.onload = () => resolve(url);
+        tag.onerror = () => reject(url);
+        document.head.appendChild(tag);
+      }
+    });
+  }
+</script>
+
+<div id="toast-stack"></div>
+
+<script>
+ 
+(() => {
+  const toastStack = document.getElementById('toast-stack');
+  let toastCount = 0;
+  const MAX_TOAST = 5;
+  const DURATION  = 2500;
+
+   
+  let lastText = '';
+  let lastTime = 0;
+
+  window.pushToast = function (msg = '✅ 哎嘿！复制成功了😊') {
+    const now = Date.now();
+    if (msg === lastText && now - lastTime < 500) return; 
+    lastText = msg;
+    lastTime = now;
+
+     
+    if (toastCount >= MAX_TOAST) toastStack.firstElementChild?.closeToast();
+
+    const item = document.createElement('div');
+    item.className = 'snack-left-top';
+    item.textContent = msg;
+
+    let closeTimer = null;
+    function closeToast() {
+      if (item.isClosing) return;
+      item.isClosing = true;
+      item.classList.remove('show');
+      item.addEventListener('transitionend', () => {
+        item.remove();
+        toastCount--;
+      }, { once: true });
+      clearTimeout(closeTimer);
+    }
+    item.closeToast = closeToast;
+
+    toastStack.appendChild(item);
+    toastCount++;
+    void item.offsetWidth;
+    item.classList.add('show');
+    closeTimer = setTimeout(closeToast, DURATION);
+  };
+
+   
+  document.addEventListener('copy', e => {
+    const text = window.getSelection().toString().trim();
+    if (!text) return;
+    e.preventDefault();
+    navigator.clipboard.writeText(text)
+      .then(() => pushToast())
+      .catch(console.warn);
+  });
+
+   
+  const container = document.querySelector('.article-content');
+  if (container) {
+    container.addEventListener('click', e => {
+      if (!e.target.matches('.copyCodeButton')) return;
+      const wrap = e.target.closest('pre, .highlight');
+      const codeTd = wrap?.querySelector('td:nth-child(2)') || wrap;
+      const txt = codeTd ? codeTd.textContent.trim() : '';
+      navigator.clipboard.writeText(txt)
+        .then(() => pushToast())
+        .catch(err => alert('复制失败：' + err));
+    });
+  }
+})();
+</script>
+
+<style>
+ 
+.copyCodeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background: #3ff8ab;
+  color: #08f9ad;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.copyCodeButton:hover {
+  background: #03b281 !important;;
+  color: #f2f5f4;
+}
+
+ 
+.snack-left-top {
+  position: fixed;
+  left: 20px;
+  top: calc(20px + env(safe-area-inset-top, 0px));
+  transform: translateX(calc(-100% - 20px));
+  width: 300px;
+  height: 60px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 15px;
+  background: var(--hover-text-color);
+  color: #00ae5d;
+  box-shadow: 4px 4px 14px rgba(2, 250, 204, 0.35);
+  z-index: 9999;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+}
+ 
+.snack-left-top.show {
+  transform: translateX(0);
+}
+ 
+#toast-stack {
+  position: fixed;
+  left: 0;
+  top: calc(20px + env(safe-area-inset-top, 0px));
+  z-index: 9999;
+  pointer-events: none;
+}
+
+ 
+#toast-stack .snack-left-top {
+  position: relative;    
+  margin-bottom: 12px;   
+  pointer-events: auto;
+  transition: transform .35s cubic-bezier(.4, 0, .2, 1),
+              opacity   .35s cubic-bezier(.4, 0, .2, 1);
+  opacity: 0;
+  transform: translateX(calc(-100% - 20px));
+}
+
+#toast-stack .snack-left-top.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>
+
+<div id="jsi-flying-fish-container"></div>
+
+
+<style>
+#jsi-flying-fish-container {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    z-index: -1;
+    opacity: 0;           
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity .3s;
+}
+ 
+.show-fish #jsi-flying-fish-container {
+    opacity: .5;
+}
+</style>
+
+
+<script>
+window.initFlyingFish = function () {
+    const container = document.getElementById('jsi-flying-fish-container');
+    if (!container) return;
+
+     
+    const oldCanvas = container.querySelector('canvas');
+    if (oldCanvas) oldCanvas.remove();
+
+     
+    const script = document.createElement('script');
+    script.src = 'https://cdn.meimolihan.eu.org/hugo/fish/fish.js';
+    script.onload = function () {
+        if (typeof RENDERER !== 'undefined') RENDERER.init();
+    };
+    document.head.appendChild(script);
+
+     
+    function checkBottom() {
+        const doc = document.documentElement;
+        const isBottom = (window.innerHeight + Math.ceil(window.pageYOffset))
+                         >= (doc.scrollHeight - 10);
+        document.body.classList.toggle('show-fish', isBottom);
+    }
+
+     
+    window.addEventListener('scroll', checkBottom);
+    checkBottom(); 
+};
+
+ 
+document.addEventListener('DOMContentLoaded', initFlyingFish);
+
+ 
+document.addEventListener('pjax:complete', initFlyingFish);
+</script>
+ <script defer src="https://cn.vercount.one/js"></script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let openUl = document.querySelectorAll(".open");
+            if (openUl.length > 0) {
+              openUl.forEach((ul) => {
+                ul.classList.remove("open")
+              })
+            }
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+
+
+
+<div id="particles-js"></div>
+
+<script src=https://A1ester.github.io/background/particles.min.js></script>
+<script>
+  particlesJS.load('particles-js', "https://A1ester.github.io/background/particlesjs-config.json", function() {
+    console.log('particles.js loaded - callback');
+  });
+</script>
+
+<style>
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+</style>
+    </body>
+</html>

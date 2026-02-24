@@ -7,95 +7,323 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>A1ester@Luigi</copyright>
-        <lastBuildDate>Wed, 11 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://A1ester.github.io/tags/%E5%90%8C%E6%80%81/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>🔍同态加密的分类和研究</title>
-        <link>https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E7%9A%84%E5%88%86%E7%B1%BB%E5%92%8C%E7%A0%94%E7%A9%B6/</link>
-        <pubDate>Wed, 11 Feb 2026 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sun, 15 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://A1ester.github.io/tags/%E5%90%8C%E6%80%81/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>🔍同态加密学习</title>
+        <link>https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
         
-        <guid>https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E7%9A%84%E5%88%86%E7%B1%BB%E5%92%8C%E7%A0%94%E7%A9%B6/</guid>
-        <description>&lt;img src="https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E7%9A%84%E5%88%86%E7%B1%BB%E5%92%8C%E7%A0%94%E7%A9%B6/1.png" alt="Featured image of post 🔍同态加密的分类和研究" /&gt;&lt;p&gt;References:&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_44604541/article/details/118145637&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+        <guid>https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/</guid>
+        <description>&lt;img src="https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/1.png" alt="Featured image of post 🔍同态加密学习" /&gt;&lt;p&gt;References:&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_44604541/article/details/118145637&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;一文了解同态加密（Homomorphic Encryption, HE）-CSDN博客&lt;/a&gt;&lt;/p&gt;
-&lt;h1 id=&#34;概述&#34;&gt;📖概述
-&lt;/h1&gt;&lt;p&gt;基本概念&lt;/p&gt;
-&lt;p&gt;同态加密（Homomorphic Encryption, HE）是指满足密文同态运算性质的加密算法，即数据经过同态加密之后，对密文进行特定的计算，得到的密文计算结果在进行对应的同态解密后的明文等同于对明文数据直接进行相同的计算，实现数据的“可算不可见”&lt;/p&gt;
-&lt;p&gt;如果满足 f(A)+f(B)=f(A+B)f(A)+f(B)=f(A+B) ， 我们将这种加密函数叫做加法同态
-如果满足 f(A)×f(B)=f(A×B)f(A)×f(B)=f(A×B) ，我们将这种加密函数叫做乘法同态。&lt;/p&gt;
+&lt;p&gt;Optimized Privacy-Preserving CNN Inference With Fully Homomorphic Encryption，Dongwoo Kim &amp;amp; Cyril Guyot（IEEE TIFS, 2023）&lt;/p&gt;
+&lt;h2 id=&#34;一学同态加密应用&#34;&gt;一、学同态加密？应用？
+&lt;/h2&gt;&lt;p&gt;一开始基本看不懂。但仔细想想，它解决的问题其实很好理解：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;场景：&lt;/strong&gt; 我有一张医疗图像，想让某个AI服务商的神经网络帮我做诊断。但我不想把原始数据上传给对方，因为这涉及隐私。怎么办？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;同态加密（Fully Homomorphic Encryption，FHE）就是为了解决这个问题而生的——&lt;strong&gt;让服务商在加密数据上直接运算，我收到结果再解密，整个过程服务商看不到任何明文&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这就是所谓的 &lt;strong&gt;隐私保护机器学习（Privacy-Preserving Machine Learning, PPML）&lt;/strong&gt; 中的 &lt;strong&gt;安全推理（Secure Inference）&lt;/strong&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;二基础知识&#34;&gt;二、基础知识
+&lt;/h2&gt;&lt;h3 id=&#34;21-什么是同态加密&#34;&gt;2.1 什么是同态加密？
+&lt;/h3&gt;&lt;p&gt;普通加密：加密之后必须先解密才能操作数据。&lt;/p&gt;
+&lt;p&gt;同态加密：可以&lt;strong&gt;直接对密文进行运算&lt;/strong&gt;，结果解密后等同于对明文运算的结果。&lt;/p&gt;
+&lt;p&gt;用数学语言表达（以论文中使用的 CKKS 方案为例）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Dec(Enc(m₁) ⊞ Enc(m₂)) ≈ m₁ + m₂   （密文加法）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Dec(Enc(m₁) ⊡ Enc(m₂)) ≈ m₁ × m₂   （密文乘法）
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]&lt;/p&gt;
+&lt;p&gt;注意这里有个 &lt;code&gt;≈&lt;/code&gt;（约等于）而不是 &lt;code&gt;=&lt;/code&gt;，这是 CKKS 方案的特点——它做的是&lt;strong&gt;近似计算&lt;/strong&gt;，有一点点误差，但对于机器学习推理来说完全够用。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;22-ckks-方案简介&#34;&gt;2.2 CKKS 方案简介
+&lt;/h3&gt;&lt;p&gt;论文使用的是 &lt;strong&gt;CKKS 方案&lt;/strong&gt;（Cheon-Kim-Kim-Song，2017年提出）。我理解它的核心特点是：&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;类型&lt;/th&gt;
-&lt;th&gt;算法&lt;/th&gt;
-&lt;th&gt;时间&lt;/th&gt;
+&lt;th&gt;特点&lt;/th&gt;
 &lt;th&gt;说明&lt;/th&gt;
-&lt;th&gt;实际应用&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;半同态加密&lt;/td&gt;
-&lt;td&gt;乘法同态RSA 算法&lt;/td&gt;
-&lt;td&gt;1977&lt;/td&gt;
-&lt;td&gt;非随机化加密，具有乘法同态性的原始算法面临选择明文攻击&lt;/td&gt;
-&lt;td&gt;在非同态场景中应用广泛&lt;/td&gt;
+&lt;td&gt;明文空间&lt;/td&gt;
+&lt;td&gt;多项式环 $\mathcal{R} := \mathbb{Z}[X]/(X^N+1)$&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;乘法同态ElGamal 算法&lt;/td&gt;
-&lt;td&gt;1985&lt;/td&gt;
-&lt;td&gt;随机化加密&lt;/td&gt;
-&lt;td&gt;DSS 数字签名标准基于 ElGamal 数字签名算法的变体&lt;/td&gt;
+&lt;td&gt;支持操作&lt;/td&gt;
+&lt;td&gt;近似实数/复数的加法和乘法&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;加法同态Paillier 算法&lt;/td&gt;
-&lt;td&gt;1999&lt;/td&gt;
-&lt;td&gt;应用最为成熟&lt;/td&gt;
-&lt;td&gt;联邦学习&lt;/td&gt;
+&lt;td&gt;编码方式&lt;/td&gt;
+&lt;td&gt;一个密文可以同时打包 $N/2$ 个复数（&amp;ldquo;槽&amp;rdquo;，slot）&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;有限次数全同态Boneh-Goh-Nissim 方案&lt;/td&gt;
-&lt;td&gt;2005&lt;/td&gt;
-&lt;td&gt;仅支持 1 次乘法同态运算&lt;/td&gt;
-&lt;td&gt;/&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;全同态加密&lt;/td&gt;
-&lt;td&gt;Gentry 方案&lt;/td&gt;
-&lt;td&gt;2009&lt;/td&gt;
-&lt;td&gt;第一代全同态加密，性能较差&lt;/td&gt;
-&lt;td&gt;/&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;BGV 方案&lt;/td&gt;
-&lt;td&gt;2012&lt;/td&gt;
-&lt;td&gt;第二代全同态加密，性能相对较好&lt;/td&gt;
-&lt;td&gt;IBM HElib 开源库&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;BFV 方案&lt;/td&gt;
-&lt;td&gt;2012&lt;/td&gt;
-&lt;td&gt;第二代全同态加密，与 BGV 类似&lt;/td&gt;
-&lt;td&gt;微软 SEAL 开源库&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;GSW 方案&lt;/td&gt;
-&lt;td&gt;2013&lt;/td&gt;
-&lt;td&gt;第三代全同态加密，基于近似特征向量&lt;/td&gt;
-&lt;td&gt;TFHE 开源库&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;CKKS 方案&lt;/td&gt;
-&lt;td&gt;2017&lt;/td&gt;
-&lt;td&gt;可实现浮点数近似计算，适合机器学习建模场景&lt;/td&gt;
-&lt;td&gt;HElib 和 SEAL&lt;/td&gt;
+&lt;td&gt;适用场景&lt;/td&gt;
+&lt;td&gt;机器学习推理、统计计算等允许近似误差的场景&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</description>
+&lt;/table&gt;
+&lt;h4 id=&#34;重要概念多项式环-mathcalr&#34;&gt;重要概念：多项式环 $\mathcal{R}$
+&lt;/h4&gt;&lt;p&gt;这是让我花了最长时间理解的部分。简单来说：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\mathcal{R}$ 中的元素是多项式，例如 $3 + 2X + 5X^2 + \cdots$&lt;/li&gt;
+&lt;li&gt;这些多项式的次数不超过 $N-1$（$N$ 是2的幂次，比如 $2^{16}$）&lt;/li&gt;
+&lt;li&gt;乘法时遵循规则 $X^N = -1$（模 $X^N+1$）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;23-编码与旋转操作&#34;&gt;2.3 编码与旋转操作
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;普通 CKKS 编码（Slot 编码）：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将 $N/2$ 个复数打包进一个密文&lt;/li&gt;
+&lt;li&gt;支持向量的逐元素加法和乘法&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Rot(ct, j)&lt;/code&gt; 操作：将密文中的向量循环左移 $j$ 步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;论文新提出的系数编码（Coefficient Encoding）：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将 $N$ 个实数直接存到多项式的各项系数中&lt;/li&gt;
+&lt;li&gt;优点：可以存更多数据（$N$ 个 vs 普通的 $N/2$ 个）&lt;/li&gt;
+&lt;li&gt;(论文最核心的创新之一)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;24-密文的level与计算深度&#34;&gt;2.4 密文的Level与计算深度
+&lt;/h3&gt;&lt;p&gt;这是 FHE 中一个很重要但初学时容易忽略的概念：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每个密文有一个&amp;quot;层数&amp;quot; $l \in {0, 1, \ldots, L}$&lt;/li&gt;
+&lt;li&gt;每做一次乘法，层数消耗一层&lt;/li&gt;
+&lt;li&gt;层数为 0 时，就无法继续做乘法了&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以对于深层神经网络，我们需要……&lt;/p&gt;
+&lt;h3 id=&#34;25-bootstrapping自举&#34;&gt;2.5 Bootstrapping（自举）
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Bootstrapping&lt;/strong&gt; 是 FHE 中最&amp;quot;神奇&amp;quot;也最耗时的操作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;作用：&lt;/strong&gt; 将一个层数耗尽（level=0）的密文&amp;quot;刷新&amp;quot;为高层数（level=L）的密文，从而可以继续运算&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代价：&lt;/strong&gt; 计算开销非常大&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;意义：&lt;/strong&gt; 有了 Bootstrapping，FHE 才能进行任意深度的计算（即&amp;quot;全同态&amp;quot;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;没有 Bootstrapping，FHE 只是&amp;quot;有限同态加密&amp;quot;，只能处理深度有限的网络。这也是为什么之前大多数工作只能做浅层网络，而这篇论文能做20层CNN的原因。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;三已有方案对比&#34;&gt;三、已有方案对比
+&lt;/h2&gt;&lt;p&gt;论文的第二节梳理了现有方法，我整理如下：&lt;/p&gt;
+&lt;h3 id=&#34;31-高吞吐量-vs-低延迟&#34;&gt;3.1 高吞吐量 vs 低延迟
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;代表工作&lt;/th&gt;
+&lt;th&gt;特点&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;高吞吐量&lt;/td&gt;
+&lt;td&gt;CryptoNets（2016）&lt;/td&gt;
+&lt;td&gt;把很多输入打包到一个密文，均摊计算成本；但单次推理延迟极高&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;低延迟&lt;/td&gt;
+&lt;td&gt;Gazelle、LoLa、Falcon 等&lt;/td&gt;
+&lt;td&gt;专注于单次推理的速度&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这篇论文属于&lt;strong&gt;低延迟&lt;/strong&gt;方向。&lt;/p&gt;
+&lt;h3 id=&#34;32-卷积的同态计算以往的方法&#34;&gt;3.2 卷积的同态计算：以往的方法
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;向量编码法（Vector Encoding，Gazelle等）：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对于一个 $k \times k$ 的卷积核，需要生成 $k^2$ 个旋转后的密文&lt;/li&gt;
+&lt;li&gt;再分别乘以对应的核权重，求和&lt;/li&gt;
+&lt;li&gt;代价：$k^2$ 次乘法，$k^2 - 1$ 次旋转&lt;/li&gt;
+&lt;li&gt;问题：核越大，计算越贵&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;频域编码法（Spectral Encoding，Falcon等）：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;利用卷积定理：时域卷积 = 频域相乘&lt;/li&gt;
+&lt;li&gt;用 DFT（离散傅里叶变换）把输入和核变换到频域，做一次乘法，再做逆变换&lt;/li&gt;
+&lt;li&gt;问题：DFT 和 IDFT 本身也很贵，而且每次交互都需要解密&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;四论文核心方法convfhe&#34;&gt;四、论文核心方法：ConvFHE
+&lt;/h2&gt;&lt;h3 id=&#34;41-核心思路&#34;&gt;4.1 核心思路
+&lt;/h3&gt;&lt;p&gt;论文发现：&lt;strong&gt;卷积运算可以表示为两个多项式在环 $\mathcal{R}$ 中的乘法&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;具体来说，对于输入 $I \in \mathbb{Z}^{w \times w}$ 和卷积核 $K \in \mathbb{Z}^{k \times k}$，可以把它们分别编码为两个多项式 $I(X)$ 和 $K(X)$，使得：&lt;/p&gt;
+&lt;p&gt;$$I(X) \cdot K(X) \text{ 的第 } (iw+j) \text{ 项系数} = \text{Conv}(I, K)_{i,j}$$&lt;/p&gt;
+&lt;p&gt;也就是说，&lt;strong&gt;一次多项式乘法（即一次同态乘法）就能完成整个卷积，无论核有多大&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这就是为什么论文标题说&amp;quot;constant regardless of the kernel size&amp;quot;（与核大小无关的常数时间）。&lt;/p&gt;
+&lt;h3 id=&#34;42-为什么这样能行&#34;&gt;4.2 为什么这样能行？
+&lt;/h3&gt;&lt;p&gt;我的理解是：普通卷积就是一种&amp;quot;多项式卷积&amp;quot;的特殊形式。把输入和核的元素安排在多项式的合适位置上，乘法的结果恰好就是卷积输出。这个想法很优雅。&lt;/p&gt;
+&lt;h3 id=&#34;43-批量卷积的推广&#34;&gt;4.3 批量卷积的推广
+&lt;/h3&gt;&lt;p&gt;CNN 里不止一个卷积，还有 $B$ 个输入通道和 $B&amp;rsquo;$ 个输出通道（批量卷积）。论文用了&amp;quot;稀疏打包&amp;quot;的技巧把所有 $B$ 组输入编码进一个多项式，让它们的卷积结果自动落在不同的系数位置上，互不干扰。&lt;/p&gt;
+&lt;p&gt;然后用一个叫 &lt;strong&gt;PackLWEs&lt;/strong&gt; 的算法（对 Chen et al. 2021 工作的推广），把 $B$ 个输出密文高效地打包成 1 个密文。&lt;/p&gt;
+&lt;h3 id=&#34;44-与卷积层含激活函数结合&#34;&gt;4.4 与卷积层（含激活函数）结合
+&lt;/h3&gt;&lt;p&gt;卷积之后通常跟一个激活函数（如 ReLU）。问题来了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;系数编码适合做卷积（多项式乘法）&lt;/li&gt;
+&lt;li&gt;激活函数需要逐元素操作，适合槽编码（slot domain）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;论文的解决方案：&lt;strong&gt;把 Bootstrapping 的中间步骤拆开来用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Bootstrapping 本来就有把系数域转换为槽域（CtoS）和反向转换（StoC）的步骤。论文把 ReLU 激活的评估&amp;quot;插入&amp;quot;到这两步之间：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;系数域（卷积结果）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ CtoS（密文操作，不需要解密）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;槽域
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ ReLU近似多项式（在槽域做逐元素操作）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ StoC
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;系数域（下一层的输入）
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样卷积和激活函数都能在全加密状态下完成，而且每层只需要一次 Bootstrapping。&lt;/p&gt;
+&lt;h3 id=&#34;45-relu-的近似&#34;&gt;4.5 ReLU 的近似
+&lt;/h3&gt;&lt;p&gt;FHE 只能做多项式运算，而 ReLU$(x) = \max(0, x)$ 不是多项式。怎么办？&lt;/p&gt;
+&lt;p&gt;论文用了&lt;strong&gt;复合多项式近似&lt;/strong&gt;：找三个低次多项式 $f_1, f_2, f_3$，使得 $f_3(f_2(f_1(x))) \approx \text{sign}(x)$，从而近似 ReLU。精度达到 10-bit（对于深度CNN来说足够了）。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;五方法对比总结&#34;&gt;五、方法对比总结
+&lt;/h2&gt;&lt;p&gt;三种方法的计算代价对比（$B$：批大小，$k$：核宽，$w$：输入宽）：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;乘法次数&lt;/th&gt;
+&lt;th&gt;旋转次数&lt;/th&gt;
+&lt;th&gt;密文容量&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;向量编码（Gazelle）&lt;/td&gt;
+&lt;td&gt;$k^2 B$&lt;/td&gt;
+&lt;td&gt;$k^2 + B - 2$&lt;/td&gt;
+&lt;td&gt;$N/2$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;频域编码（Falcon）&lt;/td&gt;
+&lt;td&gt;$B + 2$&lt;/td&gt;
+&lt;td&gt;$B - 1 + 4\log_2 w$&lt;/td&gt;
+&lt;td&gt;$N/2w^2$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;本文（ConvFHE）&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;$3B - 2$&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;$B - 1$&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;$N$&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;本文方法的优势：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;乘法次数与核大小 $k$ &lt;strong&gt;完全无关&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;旋转次数最少&lt;/li&gt;
+&lt;li&gt;每个密文可以打包更多消息（$N$ 个，是向量编码的两倍）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;六实验结果&#34;&gt;六、实验结果
+&lt;/h2&gt;&lt;p&gt;论文在 AMD EPYC 7402P（单线程）上测试，FHE参数 $N = 2^{16}$，128-bit安全。&lt;/p&gt;
+&lt;h3 id=&#34;61-单卷积加速效果&#34;&gt;6.1 单卷积加速效果
+&lt;/h3&gt;&lt;p&gt;与向量编码基线相比，ConvFHE 的加速比：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;核宽 $k$&lt;/th&gt;
+&lt;th&gt;加速倍数&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;$k = 3$&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;~12×&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$k = 5$&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;~25×&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$k = 7$&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;~46×&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;而且本文方法的时间对所有核宽都&lt;strong&gt;保持不变&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;62-完整cnn推理&#34;&gt;6.2 完整CNN推理
+&lt;/h3&gt;&lt;p&gt;在 CIFAR10/100 数据集上，对 20 层 CNN（plain-20）的完整推理：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;相比基线方法，总时间减少 &lt;strong&gt;18.9%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;对于 ImageNet 的 Plain-18 CNN 最后8层，减少 &lt;strong&gt;48.1%&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;63-探索更好的cnn架构&#34;&gt;6.3 探索更好的CNN架构
+&lt;/h3&gt;&lt;p&gt;既然本文方法对大核卷积没有额外代价，那能否用&lt;strong&gt;更大的核、更宽的层、更浅的网络&lt;/strong&gt;来同时提升精度和效率？&lt;/p&gt;
+&lt;p&gt;答案是肯定的，在 CIFAR10 上，最优结果：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模型&lt;/th&gt;
+&lt;th&gt;运行时间&lt;/th&gt;
+&lt;th&gt;精度&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;基线 k3-d20-w1&lt;/td&gt;
+&lt;td&gt;454s&lt;/td&gt;
+&lt;td&gt;91.3%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;本文 k5-d8-w3&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;255s&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;92.0%&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;本文 k5-d14-w3&lt;/td&gt;
+&lt;td&gt;398s&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;94.0%&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;花更少的时间，得到更高的精度——这就是方法创新带来的正向循环。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;七疑问与思考&#34;&gt;七、疑问与思考
+&lt;/h2&gt;&lt;p&gt;几个地方还没完全弄懂，记录在这里：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;PackLWEs 算法&lt;/strong&gt;：论文用它把 $B$ 个密文合并成1个，说是不消耗&amp;quot;乘法层数&amp;quot;（multiplicative depth），为什么？我还需要看附录A和 Chen et al. 2021 的原文。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;系数域到槽域的转换（CtoS/StoC）&lt;/strong&gt;：这是 Bootstrapping 内部的操作，对我来说仍然是黑盒。需要补充 CKKS Bootstrapping 的原理。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;为什么 $X^N = -1$&lt;/strong&gt;：这是多项式环 $\mathbb{Z}[X]/(X^N+1)$ 的定义，之前没学到这里，回去还要补一下课。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;安全性&lt;/strong&gt;：论文说基于&amp;quot;格密码学&amp;quot;（Lattice-based cryptography）的困难性假设，具体是什么问题？（RLWE？）后面再去了解一下&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;后续我要做的事&#34;&gt;后续我要做的事
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 补充环论基础（多项式环、理想等概念）&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 仔细阅读 CKKS 原论文（Cheon et al., 2017）&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 理解 CKKS Bootstrapping 的完整流程&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 跑一下论文开源代码（Lattigo 库）感受实际效果&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 了解 BGV、B/FV 等其他 FHE 方案与 CKKS 的区别&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;一句话总结这篇论文：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;把 CNN 的卷积运算重新表达为多项式乘法，使得同态加密下的卷积代价与核大小无关，从而在不损失精度的前提下大幅加速了隐私保护神经网络推理。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
         </item>
         
     </channel>
