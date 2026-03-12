@@ -13,9 +13,10 @@
         <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
         
         <guid>https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/</guid>
-        <description>&lt;img src="https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/1.png" alt="Featured image of post 🔍同态加密学习" /&gt;&lt;p&gt;References:&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_44604541/article/details/118145637&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+        <description>&lt;img src="https://A1ester.github.io/p/%E5%90%8C%E6%80%81%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0/1.png" alt="Featured image of post 🔍同态加密学习" /&gt;&lt;p&gt;References:&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_44604541/article/details/118145637&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;一文了解同态加密（Homomorphic Encryption, HE）-CSDN博客&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Optimized Privacy-Preserving CNN Inference With Fully Homomorphic Encryption，Dongwoo Kim &amp;amp; Cyril Guyot（IEEE TIFS, 2023）&lt;/p&gt;
+&lt;p&gt;&amp;amp;&amp;amp; Optimized Privacy-Preserving CNN Inference With Fully Homomorphic Encryption，Dongwoo Kim &amp;amp; Cyril Guyot（IEEE TIFS, 2023）&lt;/p&gt;
 &lt;h2 id=&#34;一学同态加密应用&#34;&gt;一、学同态加密？应用？
 &lt;/h2&gt;&lt;p&gt;一开始基本看不懂。但仔细想想，它解决的问题其实很好理解：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -311,7 +312,7 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
-&lt;h3 id=&#34;后续我要做的事&#34;&gt;后续我要做的事
+&lt;h3 id=&#34;后续要做的事&#34;&gt;后续要做的事
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 补充环论基础（多项式环、理想等概念）&lt;/li&gt;
 &lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 仔细阅读 CKKS 原论文（Cheon et al., 2017）&lt;/li&gt;
